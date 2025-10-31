@@ -20,11 +20,11 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth','role:admin'])->group(function () {
-    Route::get('/Admin/dashboard', action:[AdminController::class, 'dashboard']);
+    Route::get('/admin/dashboard', action:[AdminController::class, 'dashboard']);
 });
 
 Route::middleware(['auth','role:user'])->group(function () {
-    Route::get('/User/dashboard', action:[UserController::class, 'dashboard']);
+    Route::get('/user/dashboard', action:[UserController::class, 'dashboard']);
 });
 
-require __DIR__.'/auth.php';
+require __DIR__.'/auth.php'; 
