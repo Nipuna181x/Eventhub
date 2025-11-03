@@ -5,10 +5,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\RsvpController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -41,6 +43,13 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('events', EventController::class)->only(['index', 'show']);
 
 });
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/events/create', [EventController::class, 'create'])->name('events.create');
+    Route::get('/rsvp', [RsvpController::class, 'index'])->name('rsvp.index');
+});
+
+
 
 
 require __DIR__.'/auth.php'; 
