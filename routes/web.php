@@ -51,6 +51,18 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 Route::resource('events', EventController::class);
 
+//newwwww
 
+// Edit event page
+Route::get('/events/{event}/edit', [EventController::class, 'edit'])->name('events.edit');
+
+// Update event
+Route::put('/events/{event}', [EventController::class, 'update'])->name('events.update');
+
+// Delete event
+Route::delete('/events/{event}', [EventController::class, 'destroy'])->name('events.destroy');
+
+// RSVP route (for later when you create the RSVP table)
+Route::post('/events/{event}/rsvp', [EventController::class, 'rsvp'])->name('events.rsvp');
 
 require __DIR__.'/auth.php'; 

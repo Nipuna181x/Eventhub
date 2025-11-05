@@ -50,4 +50,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Event::class);
     }
+
+    //newwwwwww
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
 }
