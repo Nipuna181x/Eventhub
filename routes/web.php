@@ -49,6 +49,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/rsvp', [RsvpController::class, 'index'])->name('rsvp.index');
 });
 
+Route::resource('events', EventController::class);
 
 
 
