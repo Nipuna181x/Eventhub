@@ -12,16 +12,9 @@
                     <div class="flex">
                         <!-- Logo -->
                         <div class="shrink-0 flex items-center">
-                            <a href="{{ $dashboardRoute }}">
-                                <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                            <a href="{{ $dashboardRoute }}" class="flex items-center">
+                                <x-application-logo class="h-8 w-auto fill-current text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors duration-300" />
                             </a>
-                        </div>
-
-                        <!-- Navigation Links -->
-                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                            <x-nav-link :href="$dashboardRoute" :active="request()->routeIs('admin.dashboard') || request()->routeIs('user.dashboard')">
-                                {{ __('EVENTHUB') }}
-                            </x-nav-link>
                         </div>
             </div>
 
@@ -31,12 +24,14 @@
                 </x-nav-link>
 
                 @if(auth()->check())
+                    <x-nav-link :href="route('events.calendar')" :active="request()->routeIs('events.calendar')">
+                        {{ __('Calendar') }}
+                    </x-nav-link>
+
                     @if(auth()->user()->isAdmin())
                         <x-nav-link :href="route('events.create')" :active="request()->routeIs('events.create')">
                             {{ __('Create Event') }}
                         </x-nav-link>
-
-                        
                     @else
                         <x-nav-link :href="route('events.my-rsvps')" :active="request()->routeIs('events.my-rsvps')">
                             {{ __('My RSVPs') }}

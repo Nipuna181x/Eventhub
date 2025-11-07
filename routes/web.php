@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\RsvpController;
+use App\Http\Controllers\EventCalendarController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -41,6 +42,10 @@ Route::middleware(['auth'])->group(function () {
 
     // Public Event Views (Users can see)
     Route::resource('events', EventController::class)->only(['index', 'show']);
+    
+    // Calendar Routes
+    Route::get('/events-calendar', [EventCalendarController::class, 'index'])->name('events.calendar');
+    Route::get('/events-calendar/data', [EventCalendarController::class, 'getEvents'])->name('events.calendar-data');
 
 });
 
@@ -49,18 +54,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/rsvp', [RsvpController::class, 'index'])->name('rsvp.index');
 });
 
-Route::resource('events', EventController::class);
+//newwwwwwwwwwwwwwwwwww
 
-//newwwww
-
-// Edit event page
-Route::get('/events/{event}/edit', [EventController::class, 'edit'])->name('events.edit');
-
-// Update event
-Route::put('/events/{event}', [EventController::class, 'update'])->name('events.update');
-
-// Delete event
-Route::delete('/events/{event}', [EventController::class, 'destroy'])->name('events.destroy');
+// Event interactions
 
 // RSVP to event
 Route::post('/events/{event}/rsvp', [EventController::class, 'rsvp'])->name('events.rsvp')->middleware('auth');
