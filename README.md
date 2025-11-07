@@ -1,59 +1,221 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🎟️ EventHub - Event Management System (Laravel)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+EventHub is a simple event management web application built with **Laravel 12**.  
+It allows **Admins** to create, edit, and delete events, while **Users** can view events and RSVP to participate.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Role-Based Access**
+    - 👨‍💼 Admin: Create, edit, and delete events.
+    - 🙋‍♂️ User: View and RSVP to events.
+- **Authentication** using Laravel Breeze.
+- **CRUD operations** for events.
+- **Modern UI** styled with Tailwind CSS.
+- **Validation & Authorization** through Form Requests and Middleware.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🧱 Tech Stack
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+| Layer           | Technology               |
+|-----------------|--------------------------|
+| Backend         | Laravel 12 (PHP 8.2+)   |
+| Frontend        | Blade + Tailwind CSS     |
+| Database        | MySQL                    |
+| Authentication  | Laravel Breeze           |
+| Version Control | Git + GitHub             |
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## ⚙️ Installation Guide
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Follow these steps to set up **EventHub** locally.
 
-### Premium Partners
+### 1️⃣ Clone the Repository
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+git clone https://github.com/Nipuna181x/EventHub.git
+cd EventHub
+```
 
-## Contributing
+### 2️⃣ Install Dependencies
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+composer install
+npm install
+npm run build
+```
 
-## Code of Conduct
+### 3️⃣ Configure Environment
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Copy the example environment file:
 
-## Security Vulnerabilities
+```bash
+cp .env.example .env
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Then update your .env file with database credentials:
 
-## License
+```
+APP_NAME=EventHub
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=eventhub
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Generate the application key:
+
+```bash
+php artisan key:generate
+```
+
+#### 🗄️ Database Setup
+
+Run migrations to create all necessary tables:
+
+```bash
+php artisan migrate
+```
+
+(Optional) You can seed admin and user accounts:
+
+```bash
+php artisan tinker
+```
+
+Then inside Tinker:
+
+```php
+use App\Models\User;
+
+User::create([
+        'name' => 'Admin',
+        'email' => 'admin@gmail.com',
+        'password' => bcrypt('password'),
+        'role' => 'admin'
+]);
+
+User::create([
+        'name' => 'User',
+        'email' => 'user@gmail.com',
+        'password' => bcrypt('password'),
+        'role' => 'user'
+]);
+```
+
+### 🧩 Running the Application
+
+Start the local development servers:
+
+```bash
+php artisan serve
+npm run dev
+```
+
+Then open your browser at:
+
+👉 http://localhost:8000
+
+---
+
+## 🔑 User Roles Summary
+
+| Role  | Access Permissions                 |
+|-------|-----------------------------------|
+| Admin | Create, Edit, Delete events       |
+| User  | View and RSVP for events          |
+
+---
+
+## 🗂️ Project Structure Overview
+
+```
+EventHub/
+│
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   └── EventController.php
+│   │   └── Requests/
+│   │       └── StoreEventRequest.php
+│   └── Models/
+│       └── Event.php
+│
+├── database/
+│   └── migrations/
+│
+├── resources/
+│   └── views/
+│       └── events/
+│           ├── index.blade.php
+│           ├── show.blade.php
+│           ├── create.blade.php
+│           └── edit.blade.php
+│
+├── routes/
+│   └── web.php
+│
+├── public/
+│
+├── package.json
+├── composer.json
+└── README.md
+```
+
+---
+
+## 🧠 Development Notes
+
+Authentication handled by Laravel Breeze.
+
+Role-based logic in EventController and Blade views using auth()->user()->role.
+
+Form validation via StoreEventRequest.
+
+Each event links to a user_id (event creator).
+
+---
+
+## 💡 Example Usage
+
+Admin Login: admin@gmail.com / password
+
+User Login: user@gmail.com / password
+
+Admin can create an event and users can RSVP.
+
+---
+
+## 🧰 Useful Commands
+
+| Command                                    | Description                                      |
+|--------------------------------------------|--------------------------------------------------|
+| php artisan migrate:fresh --seed           | Reset and reseed database                        |
+| php artisan route:list                     | View all routes                                  |
+| php artisan make:model Event -mcr          | Generate Model, Controller, and Migration       |
+| npm run dev                                | Compile assets for development                   |
+| php artisan serve                          | Start the Laravel server                         |
+
+---
+
+## 🧑‍💻 Author
+
+Nipuna Dhananjaya  
+📧 your.email@example.com
+
+## 💻 GitHub
+
+## 🪪 License
+
+This project is open-source under the MIT License
+.
