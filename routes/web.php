@@ -62,7 +62,17 @@ Route::put('/events/{event}', [EventController::class, 'update'])->name('events.
 // Delete event
 Route::delete('/events/{event}', [EventController::class, 'destroy'])->name('events.destroy');
 
-// RSVP route (for later when you create the RSVP table)
-Route::post('/events/{event}/rsvp', [EventController::class, 'rsvp'])->name('events.rsvp');
+// RSVP to event
+Route::post('/events/{event}/rsvp', [EventController::class, 'rsvp'])->name('events.rsvp')->middleware('auth');
+
+// Cancel RSVP
+Route::delete('/events/{event}/rsvp', [EventController::class, 'cancelRsvp'])->name('events.cancel-rsvp')->middleware('auth');
+
+// Join waitlist
+Route::post('/events/{event}/waitlist', [EventController::class, 'joinWaitlist'])->name('events.waitlist')->middleware('auth');
+
+
+// My RSVPs page
+Route::get('/my-rsvps', [EventController::class, 'myRsvps'])->name('events.my-rsvps')->middleware('auth');
 
 require __DIR__.'/auth.php'; 

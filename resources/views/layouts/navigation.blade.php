@@ -30,14 +30,20 @@
                     {{ __('Dashboard') }}
                 </x-nav-link>
 
-                @if(auth()->check() && auth()->user()->isAdmin())
-                    <x-nav-link :href="route('events.create')" :active="request()->routeIs('events.create')">
-                        {{ __('Create Event') }}
-                    </x-nav-link>
+                @if(auth()->check())
+                    @if(auth()->user()->isAdmin())
+                        <x-nav-link :href="route('events.create')" :active="request()->routeIs('events.create')">
+                            {{ __('Create Event') }}
+                        </x-nav-link>
 
-                    <x-nav-link :href="route('rsvp.index')" :active="request()->routeIs('rsvp.index')">
-                        {{ __('RSVPs') }}
-                    </x-nav-link>
+                        <x-nav-link :href="route('rsvp.index')" :active="request()->routeIs('rsvp.index')">
+                            {{ __('RSVPs') }}
+                        </x-nav-link>
+                    @else
+                        <x-nav-link :href="route('events.my-rsvps')" :active="request()->routeIs('events.my-rsvps')">
+                            {{ __('My RSVPs') }}
+                        </x-nav-link>
+                    @endif
                 @endif
             </div>
 
@@ -97,14 +103,20 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
-            @if(auth()->check() && auth()->user()->isAdmin())
-                <x-responsive-nav-link :href="route('events.create')" :active="request()->routeIs('events.create')">
-                    {{ __('Create Event') }}
-                </x-responsive-nav-link>
+            @if(auth()->check())
+                @if(auth()->user()->isAdmin())
+                    <x-responsive-nav-link :href="route('events.create')" :active="request()->routeIs('events.create')">
+                        {{ __('Create Event') }}
+                    </x-responsive-nav-link>
 
-                <x-responsive-nav-link :href="route('rsvp.index')" :active="request()->routeIs('rsvp.index')">
-                    {{ __('RSVPs') }}
-                </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('rsvp.index')" :active="request()->routeIs('rsvp.index')">
+                        {{ __('RSVPs') }}
+                    </x-responsive-nav-link>
+                @else
+                    <x-responsive-nav-link :href="route('events.my-rsvps')" :active="request()->routeIs('events.my-rsvps')">
+                        {{ __('My RSVPs') }}
+                    </x-responsive-nav-link>
+                @endif
             @endif
         </div>
 
