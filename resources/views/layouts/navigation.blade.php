@@ -36,9 +36,7 @@
                             {{ __('Create Event') }}
                         </x-nav-link>
 
-                        <x-nav-link :href="route('rsvp.index')" :active="request()->routeIs('rsvp.index')">
-                            {{ __('RSVPs') }}
-                        </x-nav-link>
+                        
                     @else
                         <x-nav-link :href="route('events.my-rsvps')" :active="request()->routeIs('events.my-rsvps')">
                             {{ __('My RSVPs') }}
