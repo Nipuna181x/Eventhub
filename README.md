@@ -87,30 +87,13 @@ Run migrations to create all necessary tables:
 php artisan migrate
 ```
 
-(Optional) You can seed admin and user accounts:
+ You can seed admin and user accounts by running the UserSeeder:
 
 ```bash
-php artisan tinker
+php artisan db:seed --class=UserSeeder
 ```
 
-Then inside Tinker:
-
-```php
-use App\Models\User;
-
-User::create([
-        'name' => 'Admin',
-        'email' => 'admin@gmail.com',
-        'password' => bcrypt('password'),
-        'role' => 'admin'
-]);
-
-User::create([
-        'name' => 'User',
-        'email' => 'user@gmail.com',
-        'password' => bcrypt('password'),
-        'role' => 'user'
-]);
+This will create sample admin and user accounts as defined in the UserSeeder file.
 ```
 
 ### 🧩 Running the Application
@@ -211,7 +194,7 @@ Admin can create an event and users can RSVP.
 ## 🧑‍💻 Author
 
 Nipuna Dhananjaya  
-📧 your.email@example.com
+📧 nipunadhananjaya181@gmail.com
 
 ## 💻 GitHub
 
