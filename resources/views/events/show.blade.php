@@ -1,73 +1,97 @@
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ $event->title }}</title>
-    @vite('resources/css/app.css')
-</head>
-<body class="bg-gray-900 text-white flex justify-center items-center min-h-screen">
-    <div class="max-w-lg w-full bg-gray-800 rounded-2xl shadow-xl p-8">
-        <h1 class="text-3xl font-bold mb-4 text-indigo-400">{{ $event->title }}</h1>
-        <p class="text-gray-300 mb-4">{{ $event->description }}</p>
-        <p class="mb-2"><span class="font-semibold">📍 Venue:</span> {{ $event->venue ?? $event->location }}</p>
-        <p class="mb-2"><span class="font-semibold">📅 Date:</span> {{ $event->date ?? $event->starts_at }}</p>
-        <p class="mb-6"><span class="font-semibold">🕒 Time:</span> {{ $event->time ?? $event->ends_at }}</p>
-        <a href="{{ route('events.index') }}" class="text-indigo-400 hover:underline">← Back to Events</a>
-    </div>
-</body>
-</html>-->
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ $event->title }}
+        </h2>
+    </x-slot>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ $event->title }}</title>
-    @vite('resources/css/app.css')
-</head>
-<body class="bg-gray-900 text-white flex justify-center items-center min-h-screen">
-    <div class="max-w-lg w-full bg-gray-800 rounded-2xl shadow-xl p-8">
-        <h1 class="text-3xl font-bold mb-4 text-indigo-400">{{ $event->title }}</h1>
-        <p class="text-gray-300 mb-4">{{ $event->description }}</p>
-        <p class="mb-2"><span class="font-semibold">📍 Venue:</span> {{ $event->location }}</p>
-        <p class="mb-2"><span class="font-semibold">📅 Date:</span> {{ $event->starts_at }}</p>
-        <p class="mb-6"><span class="font-semibold">🕒 Time:</span> {{ $event->ends_at }}</p>
+    <div class="py-12">
+        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    {{-- Success/Error Messages --}}
+                    @if(session('success'))
+                        <div class="bg-green-500 text-white p-3 rounded-lg mb-4">
+                            {{ session('success') }}
+                        </div>
+                    @endif
 
-        {{-- Role-based buttons section --}}
-        <div class="flex gap-3 mb-6">
-            @auth
-                @if(auth()->user()->isAdmin())
-                    {{-- Admin buttons: Edit and Delete --}}
-                    <a href="{{ route('events.edit', $event) }}" 
-                       class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded-lg transition">
-                        ✏️ Edit Event
-                    </a>
-                    
-                    <form action="{{ route('events.destroy', $event) }}" method="POST" class="inline"
-                          onsubmit="return confirm('Are you sure you want to delete this event?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" 
-                                class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition">
-                            🗑️ Delete Event
-                        </button>
-                    </form>
-                @else
-                    {{-- User button: RSVP --}}
-                    <form action="{{ route('events.rsvp', $event) }}" method="POST">
-                        @csrf
-                        <button type="submit" 
-                                class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition">
-                            ✓ RSVP to Event
-                        </button>
-                    </form>
-                @endif
-            @else
-                {{-- Not logged in --}}
-                <p class="text-gray-400">Please <a href="{{ route('login') }}" class="text-indigo-400 hover:underline">login</a> to RSVP</p>
-            @endauth
+                    @if(session('error'))
+                        <div class="bg-red-500 text-white p-3 rounded-lg mb-4">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
+                    <div class="space-y-4">
+                        <h1 class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{{ $event->title }}</h1>
+                        @if($event->description)
+                            <p class="text-sm text-gray-600 dark:text-gray-300">{{ $event->description }}</p>
+                        @endif
+
+                        <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                            @if($event->location)
+                                <div>
+                                    <div class="text-xs font-semibold text-gray-500 dark:text-gray-400">Location</div>
+                                    <div class="text-gray-700 dark:text-gray-200">{{ $event->location }}</div>
+                                </div>
+                            @endif
+
+                            <div>
+                                <div class="text-xs font-semibold text-gray-500 dark:text-gray-400">Starts</div>
+                                <div class="text-gray-700 dark:text-gray-200">{{ $event->starts_at->format('M d, Y @ g:i A') }}</div>
+                            </div>
+
+                            <div>
+                                <div class="text-xs font-semibold text-gray-500 dark:text-gray-400">Ends</div>
+                                <div class="text-gray-700 dark:text-gray-200">{{ $event->ends_at->format('M d, Y @ g:i A') }}</div>
+                            </div>
+
+                            @if($event->capacity)
+                                <div>
+                                    <div class="text-xs font-semibold text-gray-500 dark:text-gray-400">Capacity</div>
+                                    <div class="text-gray-700 dark:text-gray-200">{{ $event->capacity }} attendees</div>
+                                </div>
+                            @endif
+                        </div>
+
+                        {{-- Role-based actions --}}
+                        <div class="mt-6 flex flex-wrap gap-3">
+                            @auth
+                                @if(auth()->user()->isAdmin())
+                                    <a href="{{ route('events.edit', $event) }}"
+                                       class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-2 px-4 rounded-lg transition">
+                                        Edit Event
+                                    </a>
+
+                                    <form action="{{ route('events.destroy', $event) }}" method="POST" class="inline"
+                                          onsubmit="return confirm('Are you sure you want to delete this event?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                                class="inline-block bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition">
+                                            Delete Event
+                                        </button>
+                                    </form>
+                                @else
+                                    <form action="{{ route('events.rsvp', $event) }}" method="POST">
+                                        @csrf
+                                        <button type="submit"
+                                                class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition">
+                                            RSVP to Event
+                                        </button>
+                                    </form>
+                                @endif
+                            @else
+                                <p class="text-sm text-gray-500">Please <a href="{{ route('login') }}" class="text-indigo-600 hover:underline">log in</a> to RSVP.</p>
+                            @endauth
+                        </div>
+
+                        <div class="mt-6">
+                            <a href="{{ route('events.index') }}" class="text-sm text-indigo-600 hover:underline">Back to Events</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <a href="{{ route('events.index') }}" class="text-indigo-400 hover:underline">← Back to Events</a>
     </div>
-</body>
-</html>
+</x-app-layout>

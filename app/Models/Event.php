@@ -13,9 +13,15 @@ class Event extends Model
         'title', 'description', 'location', 'starts_at', 'ends_at', 'capacity', 'user_id'
     ];
     
+    protected $casts = [
+        'starts_at' => 'datetime',
+        'ends_at' => 'datetime',
+    ];
+    
     public function admin()
     {
         return $this->belongsTo(User::class, 'user_id');
+
     }
     
 }
