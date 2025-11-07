@@ -43,8 +43,12 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
+        // Set role to 'user' for new registrations
+        $user->role = 'user';
+        $user->save();
+
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('user.dashboard', absolute: false));
     }
 }
